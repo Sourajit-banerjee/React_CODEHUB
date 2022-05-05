@@ -1,8 +1,8 @@
 import { UPDATE_POSTS } from "./actionTypes";
-
+import { APIUrls } from "../helpers/urls";
 export function fetchPosts() {
   return  (dispatch)=> {
-    const url = "http://codehub-production.herokuapp.com/api/v1/posts";
+    const url =APIUrls.fetchPosts();
     fetch(url)
       .then((response) => {
        return response.json()
