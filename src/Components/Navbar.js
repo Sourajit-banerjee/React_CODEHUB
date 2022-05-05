@@ -52,7 +52,7 @@ import {Link} from 'react-router-dom'
           </div>
           <div className="nav-links">
             <ul>
-              <li><Link to="/login">LOG in</Link></li>
+              <li><Link to="/login">Sign in</Link></li>
               <li><Link to="/logout">LOG out</Link></li>
               <li><Link to="/signup">Sign up</Link></li>
             </ul>
