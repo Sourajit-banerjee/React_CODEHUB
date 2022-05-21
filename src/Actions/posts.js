@@ -8,7 +8,7 @@ export function fetchPosts() {
        return response.json()
       }).then((data)=>{
           console.log(data)
-          dispatch(updatePosts(data.posts)) //*to add the posts fetched to my store
+          dispatch(updatePosts(data.data.posts)) //*to add the posts fetched to my store
       })
       .catch((err) => {
         console.log("Fetch err", err);

@@ -8,6 +8,7 @@ class PostList extends React.Component {
     return (
       <div>
         <div className="posts-list">
+          {/* //!added slice to limit posts to 10 */}
           {posts.map((post) => (
             <div className="post-wrapper" key={post._id}>
               <div className="post-header">

@@ -2,12 +2,11 @@
 //?suppose the user focuses on a input ,we just get the ref of that inpuutr and would show some alerts or do some animationbs
 //? else we always use controlled components always
 
-
-
-
 import React, { Component } from "react";
-
-export default class Login extends Component {
+import { clearAuthState, login } from "../Actions/auth";
+import { connect } from "react-redux";
+import {Navigate} from 'react-router-dom'
+class Login extends Component {
   constructor(props) {
     super(props);
     //*in uncontyrolled compoenent(data resides in dom) when we send click sign in the data is sent to the server and it resides in the Dom.
@@ -20,6 +19,10 @@ export default class Login extends Component {
       email: "",
       password: "",
     };
+  }
+
+  componentDidMount() {
+    this.props.dispatch(clearAuthState());
   }
 
   handleEmailChange = (e) => {
@@ -43,11 +46,22 @@ export default class Login extends Component {
 
     //!Controlled Component
     console.log("login this.state", this.state);
+    const { email, password } = this.state;
+    if (email && password)
+      //* if both present then only dispatch
+      this.props.dispatch(login(email, password));
   };
   render() {
+    const { error, inProgress, isLoggedin } = this.props.auth;
+
+    if(isLoggedin){
+      return <Navigate to="/" />
+    }
+
     return (
       <form className="login-form">
         <span className="login-signup-header">Sign in</span>
+        {error && <div className="alert error-dailog">{error}</div>}
         <div className="field">
           <input
             type="email"
@@ -70,9 +84,24 @@ export default class Login extends Component {
           />
         </div>
         <div className="field">
-          <button onClick={this.handleformSubmit}>Sign in</button>
+          {inProgress ? (
+            <button onClick={this.handleformSubmit} disabled={inProgress}>
+              Logging in...
+            </button>
+          ) : (
+            <button onClick={this.handleformSubmit} disabled={inProgress}>
+              Sign in
+            </button>
+          )}
         </div>
       </form>
     );
   }
 }
+
+function mapStatetoProps(state) {
+  return {
+    auth: state.auth,
+  };
+}
+export default connect(mapStatetoProps)(Login);
